@@ -12,6 +12,7 @@
 <script>
 export default {
   name: 'Mole',
+  props: ['status'],
 };
 </script>
 
