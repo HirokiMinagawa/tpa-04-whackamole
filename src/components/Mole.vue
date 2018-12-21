@@ -1,6 +1,6 @@
 <template>
   <div class="Mole">
-    <div class="mole-container"  :class="{ active: isActive, inactive: isInActive }">
+    <div class="mole-container"  :class="[moleStatus ? 'active' : 'inactive']">
       <div class="mole-image-container">
         <img class="mole" src="../assets/mole.png" alt="mole"/>
       </div>
@@ -12,7 +12,7 @@
 <script>
 export default {
   name: 'Mole',
-  props: ['status', 'isActive', 'isInActive'],
+  props: ['moleStatus'],
 };
 </script>
 

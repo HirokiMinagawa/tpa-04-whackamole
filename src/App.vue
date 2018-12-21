@@ -14,9 +14,7 @@
       <Counter title = "Time" :number = "time" ></Counter>
     </div>
     <div class="moles-container gameActive">
-      <div v-for="n in moleData" :key="n">
-        <Mole :isActive = "isActive" :isInActive = "isInActive"></Mole>
-      </div>
+        <Mole v-for="(moleStatus, index) in moleData" :moleStatus = "moleStatus" :key="index"></Mole>
     </div>
   </div>
 </template>
@@ -36,10 +34,7 @@ export default {
       score: 100,
       highscore: 300,
       time: 10,
-      status: false,
-      isActive: true,
-      isInActive: false,
-      moleData: 4,
+      moleData: [true, true, false, false],
     };
   }
 };
