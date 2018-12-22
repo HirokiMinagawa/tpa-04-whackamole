@@ -9,15 +9,12 @@
       Start Game
     </button>
     <div class="counters-container">
-      <Counter></Counter>
-      <Counter></Counter>
-      <Counter></Counter>
+      <Counter title = "SCORE:" :number = "score" ></Counter>
+      <Counter title = "HIGH SCORE:" :number = "highscore" ></Counter>
+      <Counter title = "Time" :number = "time" ></Counter>
     </div>
     <div class="moles-container gameActive">
-      <Mole></Mole>
-      <Mole></Mole>
-      <Mole></Mole>
-      <Mole></Mole>
+        <Mole v-for="(active, index) in moleData" :active = "active" :key="index"></Mole>
     </div>
   </div>
 </template>
@@ -32,6 +29,14 @@ export default {
     Counter: Counter,
     Mole: Mole,
   },
+  data: function() {
+    return {
+      score: 100,
+      highscore: 300,
+      time: 10,
+      moleData: [true, false, true, false],
+    };
+  }
 };
 </script>
 
