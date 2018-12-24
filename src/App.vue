@@ -6,6 +6,7 @@
     <button
       @click="startGame"
       class="start-game"
+      :disabled="duringGame"
     >
       Start Game
     </button>
@@ -15,7 +16,7 @@
       <Counter title = "Time" :number = "time" ></Counter>
     </div>
     <div class="moles-container gameActive">
-        <Mole v-for="(active, index) in moleData" :active = "active" :key="index"></Mole>
+        <Mole v-for="(active, index) in moleData" :active = "active" :key="index" @moleClicked="moleClicked"></Mole>
     </div>
   </div>
 </template>
@@ -32,19 +33,23 @@ export default {
   },
   data: function() {
     return {
-      score: 100,
-      highscore: 300,
-      time: 10,
-      moleData: [true, false, true, false],
-      intervalId: 0,
+      score: 0,
+      highscore: 0,
+      time: 20,
+      moleData: [false, false, false, false],
+      timerIntervalId: 0,
+      moleIntervalId: 0,
+      duringGame: false,
     };
   },
   methods: {
     startGame: function() {
+      this.resetData();
       this.startTimer();
+      this.startMoles();
     },
     startTimer: function() {
-      this.intervalId = setInterval(this.reduceTimer, 1000);
+      this.timerIntervalId = setInterval(this.reduceTimer, 1000);
     },
     reduceTimer: function() {
       if (this.time > 0) {
@@ -54,8 +59,46 @@ export default {
       }
     },
     stopTimer: function() {
-      clearInterval(this.intervalId);
+      clearInterval(this.timerIntervalId);
+      this.stopMoles();
     },
+    moleClicked: function() {
+      this.addScore();
+    },
+    addScore: function() {
+      this.score += 1;
+    },
+    resetData: function() {
+      this.score = 0;
+      this.time = 20;
+      this.timerIntervalId= 0;
+      this.duringGame = true;
+      this.resetMoleData();
+    },
+    startMoles: function() {
+      this.moleIntervalId = setInterval(this.reverseRandomMoleStatus, 50);
+    },
+    reverseRandomMoleStatus: function() {
+      const randomIndex = Math.floor(Math.random() * this.moleData.length);
+      this.moleData[randomIndex] = !this.moleData[randomIndex];
+    },
+    stopMoles: function() {
+      clearInterval(this.moleIntervalId);
+      this.resetMoleData();
+      this.endGame();
+    },
+    endGame: function() {
+      this.updateHighScore();
+      this.duringGame = false;
+    },
+    updateHighScore: function() {
+      if (this.score > this.highscore) {
+        this.highscore = this.score;
+      }
+    },
+    resetMoleData: function() {
+      this.moleData = this.moleData.map(() => false);
+    }
   },
 };
 </script>
