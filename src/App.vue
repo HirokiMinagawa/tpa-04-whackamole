@@ -4,6 +4,7 @@
       Whack-a-mole!
     </h1>
     <button
+      @click="startGame"
       class="start-game"
     >
       Start Game
@@ -35,8 +36,27 @@ export default {
       highscore: 300,
       time: 10,
       moleData: [true, false, true, false],
+      intervalId: 0,
     };
-  }
+  },
+  methods: {
+    startGame: function() {
+      this.startTimer();
+    },
+    startTimer: function() {
+      this.intervalId = setInterval(this.reduceTimer, 1000);
+    },
+    reduceTimer: function() {
+      if (this.time > 0) {
+        this.time -= 1;
+      } else {
+        this.stopTimer();
+      }
+    },
+    stopTimer: function() {
+      clearInterval(this.intervalId);
+    },
+  },
 };
 </script>
 
