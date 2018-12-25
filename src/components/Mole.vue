@@ -2,7 +2,7 @@
   <div class="Mole">
     <div class="mole-container"  :class="[active ? 'active' : 'inactive']">
       <div class="mole-image-container">
-        <img class="mole" src="../assets/mole.png" alt="mole"/>
+        <img class="mole" src="../assets/mole.png" alt="mole" @click="clicked"/>
       </div>
       <img class="dirt" src="../assets/dirt.svg" alt="mole dirt"/>
     </div>
@@ -13,6 +13,11 @@
 export default {
   name: 'Mole',
   props: ['active'],
+  methods: {
+    clicked: function() {
+      this.$emit('moleClicked');
+    },
+  },
 };
 </script>
 
